@@ -1,88 +1,130 @@
-import { useState } from "react";
+"use client";
 
-export function NewCourseModal({
-  onClose,
-  onSubmit,
-}: {
+import { useState, useEffect } from "react";
+
+interface CourseFormData {
+  titulo: string;
+  desc: string;
+  horas: number;
+  img: string;
+  status: "ativo" | "inativo";
+}
+
+interface NewCourseModalProps {
+  initialData?: CourseFormData | null;
   onClose: () => void;
-  onSubmit: (data: {
-    titulo: string;
-    desc: string;
-    horas: number;
-    img: string;
-    status: "ativo" | "inativo";
-  }) => void;
-}) {
-  const [titulo, setTitulo] = useState("");
-  const [desc, setDesc] = useState("");
-  const [horas, setHoras] = useState(0);
-  const [img, setImg] = useState("");
-  const [status, setStatus] = useState<"ativo" | "inativo">("ativo");
+  onSubmit: (data: CourseFormData) => void | Promise<void>;
+}
+
+export default function NewCourseModal({ initialData, onClose, onSubmit }: NewCourseModalProps) {
+  const [form, setForm] = useState<CourseFormData>({
+    titulo: "",
+    desc: "",
+    horas: 0,
+    img: "",
+    status: "ativo",
+  });
+
+  useEffect(() => {
+    if (initialData) {
+      setForm(initialData);
+    }
+  }, [initialData]);
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+    const { name, value } = e.target;
+    setForm(prev => ({
+      ...prev,
+      [name]: name === "horas" ? Number(value) : value,
+    }));
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    onSubmit({ titulo, desc, horas, img, status });
+    onSubmit(form);
   }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-zinc-900 p-6 rounded w-full max-w-md mx-4">
-        <h2 className="text-xl font-bold mb-4 text-white">Novo Curso</h2>
+      <div className="bg-zinc-900 p-6 rounded max-w-lg w-full text-white">
+        <h2 className="text-xl mb-4">{initialData ? "Editar Curso" : "Novo Curso"}</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <label htmlFor="titulo" className="font-semibold">
+            Título
+          </label>
           <input
+            id="titulo"
+            name="titulo"
             type="text"
             placeholder="Título"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
+            value={form.titulo}
+            onChange={handleChange}
             required
-            className="px-3 py-2 rounded bg-gray-800 text-white outline-none"
+            className="p-2 rounded bg-gray-800 text-white"
           />
+
+          <label htmlFor="desc" className="font-semibold">
+            Descrição
+          </label>
           <textarea
+            id="desc"
+            name="desc"
             placeholder="Descrição"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
+            value={form.desc}
+            onChange={handleChange}
             required
-            className="px-3 py-2 rounded bg-gray-800 text-white outline-none resize-none"
             rows={3}
+            className="p-2 rounded bg-gray-800 text-white"
           />
+
+          <label htmlFor="horas" className="font-semibold">
+            Duração em horas
+          </label>
           <input
+            id="horas"
+            name="horas"
             type="number"
-            placeholder="Horas"
-            value={horas || ""}
-            onChange={(e) => setHoras(Number(e.target.value))}
+            placeholder="Duração em horas"
+            value={form.horas}
+            onChange={handleChange}
+            min={0}
             required
-            min={1}
-            className="px-3 py-2 rounded bg-gray-800 text-white outline-none"
+            className="p-2 rounded bg-gray-800 text-white"
           />
+
+          <label htmlFor="img" className="font-semibold">
+            URL da imagem
+          </label>
           <input
+            id="img"
+            name="img"
             type="text"
             placeholder="URL da imagem"
-            value={img}
-            onChange={(e) => setImg(e.target.value)}
+            value={form.img}
+            onChange={handleChange}
             required
-            className="px-3 py-2 rounded bg-gray-800 text-white outline-none"
+            className="p-2 rounded bg-gray-800 text-white"
           />
+
+          <label htmlFor="status" className="font-semibold">
+            Status
+          </label>
           <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value as "ativo" | "inativo")}
-            className="px-3 py-2 rounded bg-gray-800 text-white outline-none"
+            id="status"
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+            className="p-2 rounded bg-gray-800 text-white"
           >
             <option value="ativo">Ativo</option>
             <option value="inativo">Inativo</option>
           </select>
 
           <div className="flex justify-end gap-4 mt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded"
-            >
+            <button type="button" onClick={onClose} className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600">
               Cancelar
             </button>
-            <button
-              type="submit"
-              className="bg-fuchsia-700 hover:bg-fuchsia-800 text-white px-4 py-2 rounded"
-            >
+            <button type="submit" className="bg-fuchsia-700 px-4 py-2 rounded hover:bg-fuchsia-800">
               Salvar
             </button>
           </div>

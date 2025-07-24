@@ -7,13 +7,10 @@ export default function Header() {
   const router = useRouter();
 
   function handleLogout() {
-    // Remove o cookie de autenticação
     deleteCookie("token");
     
-    // Redireciona para a página de login
     router.push("/sign-in");
     
-    // Força recarregamento para limpar qualquer estado da aplicação
     router.refresh();
   }
 
