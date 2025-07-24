@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Header from "@/components/layout/header";
 import { getCookie } from "cookies-next";
+import CourseCard from "@/components/CourseCard";
+import { NewCourseModal } from "@/components/NewCourseModal";
 
 interface Course {
   id: string;
@@ -21,6 +23,7 @@ export default function Dashboard() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const checkAuthAndFetchCourses = async () => {
@@ -79,6 +82,20 @@ export default function Dashboard() {
 
   if (!authenticated) return null;
 
+  async function handleDelete(id: string) {
+    try {
+      const token = getCookie("token");
+      await axios.delete(`http://localhost:3001/courses/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setCourses((prev) => prev.filter((course) => course.id !== id));
+    } catch (error) {
+      console.error("Erro ao deletar curso", error);
+      alert("Não foi possível deletar o curso.");
+    }
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
@@ -105,7 +122,7 @@ export default function Dashboard() {
             </select>
             <button
               className="bg-fuchsia-700 hover:bg-fuchsia-800 px-4 py-2 rounded text-white font-semibold"
-              onClick={() => router.push("/courses/new")}
+              onClick={() => setIsModalOpen(true)}
             >
               + Novo Curso
             </button>
@@ -119,50 +136,39 @@ export default function Dashboard() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCourses.map((curso) => (
-              <CourseCard key={curso.id} course={curso} />
+              <CourseCard key={curso.id} course={curso} onDelete={handleDelete}/>
             ))}
           </div>
         )}
       </div>
-    </div>
-  );
-}
 
-function CourseCard({ course }: { course: Course }) {
-  const router = useRouter();
-
-  return (
-    <div className="bg-zinc-900 rounded overflow-hidden shadow hover:shadow-lg transition-shadow">
-      <img
-        src={course.img}
-        alt={course.titulo}
-        className="w-full h-40 object-cover"
-      />
-      <div className="p-4">
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="text-lg font-bold">{course.titulo}</h2>
-          <span
-            className={`text-sm px-2 py-1 rounded ${
-              course.status === "ativo" ? "bg-green-800" : "bg-red-800"
-            }`}
-          >
-            {course.status === "ativo" ? "Ativo" : "Inativo"}
-          </span>
-        </div>
-        <p className="text-sm text-gray-300 line-clamp-2">{course.desc}</p>
-        <p className="mt-2 text-sm">Duração: {course.horas} horas</p>
-        <div className="flex gap-2 mt-4">
-          <button
-            className="bg-gray-700 hover:bg-gray-600 text-sm px-3 py-1 rounded"
-            onClick={() => router.push(`/courses/edit/${course.id}`)}
-          >
-            Editar
-          </button>
-          <button className="bg-red-700 hover:bg-red-600 text-sm px-3 py-1 rounded">
-            Excluir
-          </button>
-        </div>
-      </div>
+      {isModalOpen && (
+        <NewCourseModal
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={async (data) => {
+            const token = getCookie("token");
+            try {
+              await axios.post("http://localhost:3001/courses", data, {
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true,
+              });
+              setIsModalOpen(false);
+              // Atualize lista de cursos
+              const response = await axios.get(
+                "http://localhost:3001/courses",
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                  withCredentials: true,
+                }
+              );
+              setCourses(response.data);
+            } catch (error) {
+              alert("Erro ao criar curso");
+            }
+          }}
+          
+        />
+      )}
     </div>
   );
 }
