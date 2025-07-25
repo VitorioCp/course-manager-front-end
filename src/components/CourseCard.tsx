@@ -1,7 +1,7 @@
 "use client";
 
 import { Course } from "@/types";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface CourseCardProps {
   course: Course;
@@ -16,9 +16,10 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div className="bg-zinc-900 rounded overflow-hidden shadow hover:shadow-lg transition-shadow">
-      <img
+      <Image
         src={course.img}
         alt={course.titulo}
+
         className="w-full h-40 object-cover"
       />
       <div className="p-4">

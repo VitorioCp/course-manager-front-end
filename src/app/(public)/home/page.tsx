@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 interface Course {
   id: string;
@@ -62,7 +63,9 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-950 text-gray-50 p-6">
-      <h1 className="text-4xl font-bold mb-8 text-center">Catálogo de Cursos</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center">
+        Catálogo de Cursos
+      </h1>
 
       <div className="flex justify-center mb-8">
         <input
@@ -85,19 +88,20 @@ export default function Home() {
               key={course.id}
               className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10"
             >
-              <img
+              <Image
                 src={course.img}
                 alt={course.titulo}
                 className="w-full h-48 object-cover"
               />
               <div className="p-5">
-                <h2 className="text-xl font-semibold mb-3 text-gray-50">{course.titulo}</h2>
+                <h2 className="text-xl font-semibold mb-3 text-gray-50">
+                  {course.titulo}
+                </h2>
                 <p className="text-gray-300 mb-4 line-clamp-3">{course.desc}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-400">
                     {course.horas} horas
                   </span>
-                  
                 </div>
               </div>
             </article>

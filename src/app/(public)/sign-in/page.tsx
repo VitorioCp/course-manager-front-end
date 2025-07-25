@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { setCookie } from "cookies-next";
 
@@ -30,18 +30,23 @@ export default function SignIn() {
 
       setCookie("token", token, {
         path: "/",
-        maxAge: 60 * 60 * 24 * 7, // 1 semana
+        maxAge: 60 * 60 * 24 * 7, 
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
       });
 
       window.location.href = "/";
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Erro no login:", err);
-      setError(
-        err.response?.data?.message ||
-          "Erro ao conectar com o servidor. Verifique o console para mais detalhes."
-      );
+  const axiosError = err as AxiosError;
+  const errorMessage =
+    axiosError?.response?.data && typeof axiosError.response.data === "object" && "message" in axiosError.response.data
+      ? (axiosError.response.data as { message?: string }).message
+      : undefined;
+  setError(
+    errorMessage ||
+    "Erro ao conectar com o servidor. Verifique o console para mais detalhes."
+  );
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -22,9 +22,15 @@ export default function Register() {
       });
 
       alert("Cadastro realizado com sucesso!");
+      response.data;
       router.push("/sign-in");
-    } catch (err: any) {
-      if (err.response?.data?.error) {
+    } catch (err: unknown) {
+      if (
+        axios.isAxiosError(err) &&
+        err.response &&
+        err.response.data &&
+        typeof err.response.data.error === "string"
+      ) {
         setError(err.response.data.error);
       } else {
         setError("Erro ao se cadastrar");

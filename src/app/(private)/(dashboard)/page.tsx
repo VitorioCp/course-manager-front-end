@@ -59,7 +59,7 @@ export default function Dashboard() {
     };
 
     fetchCourses();
-  }, []);
+  }, [router]);
 
   const filteredCourses = courses.filter((course) => {
     const matchesSearch =
