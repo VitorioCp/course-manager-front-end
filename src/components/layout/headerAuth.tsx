@@ -10,7 +10,7 @@ export default function Header() {
 
   function handleLogout() {
     deleteCookie("token");
-    router.push("/sign-in");
+    router.push("/home");
     router.refresh();
   }
 

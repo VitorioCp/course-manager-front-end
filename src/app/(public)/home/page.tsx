@@ -16,6 +16,7 @@ export default function Home() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -35,7 +36,13 @@ export default function Home() {
     fetchCourses();
   }, []);
 
-  const activeCourses = courses.filter((course) => course.status === "ativo");
+  const activeCourses = courses
+    .filter((course) => course.status === "ativo")
+    .filter(
+      (course) =>
+        course.titulo.toLowerCase().includes(search.toLowerCase()) ||
+        course.desc.toLowerCase().includes(search.toLowerCase())
+    );
 
   if (loading) {
     return (
@@ -55,9 +62,17 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black text-white p-6">
-      <h1 className="text-4xl font-bold mb-8 text-center">
-        Catálogo de Cursos
-      </h1>
+      <h1 className="text-4xl font-bold mb-8 text-center">Catálogo de Cursos</h1>
+
+      <div className="flex justify-center mb-8">
+        <input
+          type="text"
+          placeholder="Buscar cursos..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full max-w-md px-4 py-2 rounded bg-zinc-800 text-white outline-none focus:ring-2 focus:ring-fuchsia-500"
+        />
+      </div>
 
       {activeCourses.length === 0 ? (
         <p className="text-center text-gray-400">
