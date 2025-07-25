@@ -22,7 +22,7 @@ export default function Register() {
       });
 
       alert("Cadastro realizado com sucesso!");
-      router.push("/sign-in"); 
+      router.push("/sign-in");
     } catch (err: any) {
       if (err.response?.data?.error) {
         setError(err.response.data.error);
@@ -39,6 +39,7 @@ export default function Register() {
         className="flex flex-col gap-4 bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold text-center">Cadastro</h2>
+
         <input
           type="email"
           placeholder="Email"
@@ -63,6 +64,7 @@ export default function Register() {
           className="p-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
+
         <button
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 transition-colors p-2 rounded font-semibold"
@@ -75,6 +77,13 @@ export default function Register() {
           className="text-sm text-blue-400 hover:underline text-center"
         >
           Já tem uma conta? Voltar para login
+        </Link>
+
+        <Link
+          href="/home"
+          className="text-sm text-gray-400 hover:underline text-center"
+        >
+          Voltar para o Catálogo
         </Link>
 
         {error && <p className="text-red-400 text-sm text-center">{error}</p>}

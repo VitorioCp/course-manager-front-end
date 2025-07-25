@@ -102,9 +102,16 @@ export default function SignIn() {
           {loading ? "Entrando..." : "Entrar"}
         </button>
 
-        <div className="text-center text-sm">
+        <div className="text-center text-sm flex-col flex gap-2">
           <Link href="/register" className="text-blue-400 hover:underline">
             Criar nova conta
+          </Link>
+
+          <Link
+            href="/home"
+            className="text-sm text-gray-400 hover:underline text-center"
+          >
+            Voltar para o Catálogo
           </Link>
         </div>
       </form>

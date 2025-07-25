@@ -10,8 +10,7 @@ export default function Header() {
 
   function handleLogout() {
     deleteCookie("token");
-    router.push("/home");
-    router.refresh();
+    window.location.href = "/home";
   }
 
   const isHomePage = pathname === "/home";
