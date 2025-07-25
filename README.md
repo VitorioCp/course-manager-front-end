@@ -5,6 +5,7 @@
 - Axios
 - jose
 - lucide-react
+- tailwind
 
 ## Orientação para rodar o projeto
 
