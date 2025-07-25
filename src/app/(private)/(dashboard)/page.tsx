@@ -52,7 +52,6 @@ export default function Dashboard() {
         setCourses(res.data);
         setAuthenticated(true);
       } catch (err) {
-        console.error(err);
         setAuthenticated(false);
       } finally {
         setLoading(false);
@@ -89,16 +88,13 @@ export default function Dashboard() {
         withCredentials: true,
       });
       setCourses(courses.filter((c) => c.id !== id));
-    } catch (error) {
-      console.error("Erro ao excluir curso", error);
-    }
+    } catch (error) {}
   }
 
   async function handleSaveCourse(data: CourseFormData) {
     const token = getCookie("token");
     try {
       if (editingCourse) {
-        // Editar
         await axios.put(
           `http://localhost:3001/courses/${editingCourse.id}`,
           data,
@@ -108,14 +104,12 @@ export default function Dashboard() {
           }
         );
       } else {
-        // Criar novo
         await axios.post("http://localhost:3001/courses", data, {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
       }
 
-      // Recarrega cursos
       const res = await axios.get("http://localhost:3001/courses", {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
@@ -123,9 +117,7 @@ export default function Dashboard() {
       setCourses(res.data);
       setIsModalOpen(false);
       setEditingCourse(null);
-    } catch (error) {
-      console.error("Erro ao salvar curso", error);
-    }
+    } catch (error) {}
   }
 
   if (loading) {
@@ -145,19 +137,19 @@ export default function Dashboard() {
     <div className="min-h-screen bg-black text-white p-6">
       <Header />
 
-      <div className="flex justify-between my-8">
-        <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-4 my-8">
+        <div className="flex flex-col sm:flex-row gap-4 w-full">
           <input
             type="text"
             placeholder="Buscar cursos..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="px-4 py-2 rounded bg-gray-800 text-white outline-none w-64"
+            className="px-4 py-2 rounded bg-gray-800 text-white outline-none w-full sm:w-64"
           />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 rounded bg-gray-800 text-white outline-none"
+            className="px-4 py-2 rounded bg-gray-800 text-white outline-none w-full sm:w-auto"
           >
             <option value="">Todos os status</option>
             <option value="ativo">Ativo</option>
@@ -167,7 +159,7 @@ export default function Dashboard() {
 
         <button
           onClick={openNewCourseModal}
-          className="bg-fuchsia-700 hover:bg-fuchsia-800 px-4 py-2 rounded text-white font-semibold"
+          className="bg-fuchsia-700 hover:bg-fuchsia-800 px-4 py-2 rounded text-white font-semibold w-full sm:w-auto"
         >
           + Novo Curso
         </button>
