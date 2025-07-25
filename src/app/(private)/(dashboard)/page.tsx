@@ -80,7 +80,7 @@ export default function Dashboard() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Deseja realmente excluir este curso?")) return;
+    if (!confirm("Deseja realmente  este curso?")) return;
     const token = getCookie("token");
     try {
       await axios.delete(`http://localhost:3001/courses/${id}`, {
@@ -134,62 +134,62 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <Header />
+  <div className="min-h-screen bg-gray-950 text-gray-50 p-6">
+    <Header />
 
-      <div className="flex flex-col sm:flex-row sm:justify-between gap-4 my-8">
-        <div className="flex flex-col sm:flex-row gap-4 w-full">
-          <input
-            type="text"
-            placeholder="Buscar cursos..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="px-4 py-2 rounded bg-gray-800 text-white outline-none w-full sm:w-64"
-          />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 rounded bg-gray-800 text-white outline-none w-full sm:w-auto"
-          >
-            <option value="">Todos os status</option>
-            <option value="ativo">Ativo</option>
-            <option value="inativo">Inativo</option>
-          </select>
-        </div>
-
-        <button
-          onClick={openNewCourseModal}
-          className="bg-fuchsia-700 hover:bg-fuchsia-800 px-4 py-2 rounded text-white font-semibold w-full sm:w-auto"
+    <div className="flex flex-col sm:flex-row sm:justify-between gap-4 my-8">
+      <div className="flex flex-col sm:flex-row gap-4 w-full">
+        <input
+          type="text"
+          placeholder="Buscar cursos..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="px-4 py-2 rounded bg-gray-800 text-gray-50 outline-none w-full sm:w-64 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        />
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="px-4 py-2 rounded bg-gray-800 text-gray-50 outline-none w-full sm:w-auto border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
         >
-          + Novo Curso
-        </button>
+          <option value="">Todos os status</option>
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+        </select>
       </div>
 
-      {filteredCourses.length === 0 ? (
-        <p className="text-center text-gray-400">Nenhum curso encontrado</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.map((course) => (
-            <CourseCard
-              key={course.id}
-              course={course}
-              onDelete={handleDelete}
-              onEdit={() => openEditCourseModal(course)}
-            />
-          ))}
-        </div>
-      )}
-
-      {isModalOpen && (
-        <NewCourseModal
-          initialData={editingCourse || undefined}
-          onClose={() => {
-            setIsModalOpen(false);
-            setEditingCourse(null);
-          }}
-          onSubmit={handleSaveCourse}
-        />
-      )}
+      <button
+        onClick={openNewCourseModal}
+        className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg text-white font-bold text-lg transition-all duration-300 w-full sm:w-auto whitespace-nowrap shadow-md hover:shadow-blue-500/20"
+      >
+        + Novo Curso
+      </button>
     </div>
-  );
+
+    {filteredCourses.length === 0 ? (
+      <p className="text-center text-gray-400">Nenhum curso encontrado</p>
+    ) : (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredCourses.map((course) => (
+          <CourseCard
+            key={course.id}
+            course={course}
+            onDelete={handleDelete}
+            onEdit={() => openEditCourseModal(course)}
+          />
+        ))}
+      </div>
+    )}
+
+    {isModalOpen && (
+      <NewCourseModal
+        initialData={editingCourse || undefined}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingCourse(null);
+        }}
+        onSubmit={handleSaveCourse}
+      />
+    )}
+  </div>
+);
 }

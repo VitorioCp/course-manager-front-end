@@ -45,87 +45,117 @@ export default function NewCourseModal({ initialData, onClose, onSubmit }: NewCo
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-zinc-900 p-6 rounded max-w-lg w-full text-white">
-        <h2 className="text-xl mb-4">{initialData ? "Editar Curso" : "Novo Curso"}</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label htmlFor="titulo" className="font-semibold">
-            Título
-          </label>
-          <input
-            id="titulo"
-            name="titulo"
-            type="text"
-            placeholder="Título"
-            value={form.titulo}
-            onChange={handleChange}
-            required
-            className="p-2 rounded bg-gray-800 text-white"
-          />
-
-          <label htmlFor="desc" className="font-semibold">
-            Descrição
-          </label>
-          <textarea
-            id="desc"
-            name="desc"
-            placeholder="Descrição"
-            value={form.desc}
-            onChange={handleChange}
-            required
-            rows={3}
-            className="p-2 rounded bg-gray-800 text-white"
-          />
-
-          <label htmlFor="horas" className="font-semibold">
-            Duração em horas
-          </label>
-          <input
-            id="horas"
-            name="horas"
-            type="number"
-            placeholder="Duração em horas"
-            value={form.horas}
-            onChange={handleChange}
-            min={0}
-            required
-            className="p-2 rounded bg-gray-800 text-white"
-          />
-
-          <label htmlFor="img" className="font-semibold">
-            URL da imagem
-          </label>
-          <input
-            id="img"
-            name="img"
-            type="text"
-            placeholder="URL da imagem"
-            value={form.img}
-            onChange={handleChange}
-            required
-            className="p-2 rounded bg-gray-800 text-white"
-          />
-
-          <label htmlFor="status" className="font-semibold">
-            Status
-          </label>
-          <select
-            id="status"
-            name="status"
-            value={form.status}
-            onChange={handleChange}
-            className="p-2 rounded bg-gray-800 text-white"
+    <div className="fixed inset-0 bg-gray-950/90 flex items-center justify-center z-50 backdrop-blur-sm">
+      <div className="bg-gray-900 p-6 rounded-lg max-w-lg w-full border border-gray-800 shadow-xl">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-bold text-gray-50">
+            {initialData ? "Editar Curso" : "Novo Curso"}
+          </h2>
+          <button 
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-200"
           >
-            <option value="ativo">Ativo</option>
-            <option value="inativo">Inativo</option>
-          </select>
+            ✕
+          </button>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="titulo" className="block text-sm font-medium text-gray-300 mb-1">
+              Título
+            </label>
+            <input
+              id="titulo"
+              name="titulo"
+              type="text"
+              placeholder="Título do curso"
+              value={form.titulo}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+            />
+          </div>
 
-          <div className="flex justify-end gap-4 mt-4">
-            <button type="button" onClick={onClose} className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600">
+          <div>
+            <label htmlFor="desc" className="block text-sm font-medium text-gray-300 mb-1">
+              Descrição
+            </label>
+            <textarea
+              id="desc"
+              name="desc"
+              placeholder="Descrição detalhada do curso"
+              value={form.desc}
+              onChange={handleChange}
+              required
+              rows={3}
+              className="w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="horas" className="block text-sm font-medium text-gray-300 mb-1">
+                Duração (horas)
+              </label>
+              <input
+                id="horas"
+                name="horas"
+                type="number"
+                placeholder="0"
+                value={form.horas}
+                onChange={handleChange}
+                min={0}
+                required
+                className="w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="status" className="block text-sm font-medium text-gray-300 mb-1">
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                className="w-full px-3 py-[10px] rounded-md bg-gray-800 border border-gray-700 text-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              >
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="img" className="block text-sm font-medium text-gray-300 mb-1">
+              URL da Imagem
+            </label>
+            <input
+              id="img"
+              name="img"
+              type="text"
+              placeholder="https://exemplo.com/imagem.jpg"
+              value={form.img}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4">
+            <button 
+              type="button" 
+              onClick={onClose} 
+              className="px-4 py-2 rounded-md border border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-gray-50 transition-colors"
+            >
               Cancelar
             </button>
-            <button type="submit" className="bg-fuchsia-700 px-4 py-2 rounded hover:bg-fuchsia-800">
-              Salvar
+            <button 
+              type="submit" 
+              className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            >
+              {initialData ? "Atualizar Curso" : "Criar Curso"}
             </button>
           </div>
         </form>

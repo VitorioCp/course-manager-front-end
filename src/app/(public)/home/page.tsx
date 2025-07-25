@@ -46,7 +46,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-gray-50">
         <p>Carregando cursos...</p>
       </div>
     );
@@ -54,14 +54,14 @@ export default function Home() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-red-500">
+      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-red-400">
         <p>{error}</p>
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-black text-white p-6">
+    <main className="min-h-screen bg-gray-950 text-gray-50 p-6">
       <h1 className="text-4xl font-bold mb-8 text-center">Catálogo de Cursos</h1>
 
       <div className="flex justify-center mb-8">
@@ -70,7 +70,7 @@ export default function Home() {
           placeholder="Buscar cursos..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-md px-4 py-2 rounded bg-zinc-800 text-white outline-none focus:ring-2 focus:ring-fuchsia-500"
+          className="w-full max-w-md px-4 py-2 rounded bg-gray-800 text-gray-50 outline-none border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
         />
       </div>
 
@@ -83,19 +83,22 @@ export default function Home() {
           {activeCourses.map((course) => (
             <article
               key={course.id}
-              className="bg-zinc-900 rounded shadow hover:shadow-lg transition-shadow overflow-hidden"
+              className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10"
             >
               <img
                 src={course.img}
                 alt={course.titulo}
-                className="w-full h-40 object-cover"
+                className="w-full h-48 object-cover"
               />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold mb-2">{course.titulo}</h2>
-                <p className="text-gray-300 mb-2 line-clamp-3">{course.desc}</p>
-                <p className="text-sm text-gray-400">
-                  Duração: {course.horas} horas
-                </p>
+              <div className="p-5">
+                <h2 className="text-xl font-semibold mb-3 text-gray-50">{course.titulo}</h2>
+                <p className="text-gray-300 mb-4 line-clamp-3">{course.desc}</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-400">
+                    {course.horas} horas
+                  </span>
+                  
+                </div>
               </div>
             </article>
           ))}
