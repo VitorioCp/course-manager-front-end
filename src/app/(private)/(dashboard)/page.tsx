@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "@/components/layout/header";
+import Header from "@/components/layout/headerAuth";
 import CourseCard from "@/components/CourseCard";
 import NewCourseModal from "@/components/NewCourseModal";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 export interface Course {
   id: string;
@@ -27,12 +28,15 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
+  const router = useRouter();
+
   useEffect(() => {
     const fetchCourses = async () => {
       const token = getCookie("token");
       if (!token) {
         setAuthenticated(false);
         setLoading(false);
+        router.push("/home");
         return;
       }
 
@@ -133,11 +137,8 @@ export default function Dashboard() {
   }
 
   if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <p>Usuário não autenticado</p>
-      </div>
-    );
+    router.push("/home");
+    return null;
   }
 
   return (
