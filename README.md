@@ -1,5 +1,7 @@
 # 📚 Course Manager - Front End
 
+### [Site](https://course-manager-front-end-main.vercel.app/home)
+
 ## 🚀 Tecnologias Utilizadas
 - Next.js
 - Axios
@@ -42,3 +44,11 @@ utilize o seguinte comando para rodar o projeto:
 ```bash
 npm run dev
 ```
+
+## 🔒 Para testar use o login de teste ou crie uma nova conta
+```bash
+login: teste
+password: teste
+```
+
+
