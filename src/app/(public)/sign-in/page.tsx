@@ -18,7 +18,7 @@ export default function SignIn() {
 
     try {
       const response = await api.post(
-        "http://localhost:3001/auth/login",
+        "/auth/login",
         { identifier, password },
         {
           headers: {

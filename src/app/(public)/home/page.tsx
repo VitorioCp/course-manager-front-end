@@ -22,7 +22,7 @@ export default function Home() {
     const fetchCourses = async () => {
       try {
         const response = await api.get<Course[]>(
-          "http://localhost:3001/courses/public"
+          "/courses/public"
         );
         setCourses(response.data);
       } catch (err) {
