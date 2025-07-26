@@ -1,5 +1,7 @@
 # 📚 Course Manager - Front End
 
+### [Site](https://course-manager-front-end-main.vercel.app/home)
+
 ## 🚀 Tecnologias Utilizadas
 - Next.js
 - Axios
