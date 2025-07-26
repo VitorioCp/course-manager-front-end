@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/api/api";
 
 interface Course {
   id: string;
@@ -21,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get<Course[]>(
+        const response = await api.get<Course[]>(
           "http://localhost:3001/courses/public"
         );
         setCourses(response.data);

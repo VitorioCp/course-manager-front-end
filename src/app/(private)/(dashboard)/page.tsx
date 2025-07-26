@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import CourseCard from "@/components/CourseCard";
 import NewCourseModal from "@/components/NewCourseModal";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import api from "@/api/api";
 
 export interface Course {
   id: string;
@@ -40,11 +40,11 @@ export default function Dashboard() {
       }
 
       try {
-        await axios.get("http://localhost:3001/courses", {
+        await api.get("/courses", {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
-        const res = await axios.get("http://localhost:3001/courses", {
+        const res = await api.get("/courses", {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
@@ -82,7 +82,7 @@ export default function Dashboard() {
     if (!confirm("Deseja realmente excluir este curso?")) return;
     const token = getCookie("token");
     try {
-      await axios.delete(`http://localhost:3001/courses/${id}`, {
+      await api.delete(`/courses/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -94,8 +94,8 @@ export default function Dashboard() {
     const token = getCookie("token");
     try {
       if (editingCourse) {
-        await axios.put(
-          `http://localhost:3001/courses/${editingCourse.id}`,
+        await api.put(
+          `/courses/${editingCourse.id}`,
           data,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -103,13 +103,13 @@ export default function Dashboard() {
           }
         );
       } else {
-        await axios.post("http://localhost:3001/courses", data, {
+        await api.post("/courses", data, {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
       }
 
-      const res = await axios.get("http://localhost:3001/courses", {
+      const res = await api.get("/courses", {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });

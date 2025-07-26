@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { setCookie } from "cookies-next";
+import api from "@/api/api";
 
 export default function SignIn() {
   const [identifier, setIdentifier] = useState("");
@@ -16,7 +17,7 @@ export default function SignIn() {
     setError("");
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         "http://localhost:3001/auth/login",
         { identifier, password },
         {

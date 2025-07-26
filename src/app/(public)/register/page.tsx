@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import api from "@/api/api";
 
 export default function Register() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/auth/register", {
+      const response = await api.post("http://localhost:3001/auth/register", {
         email,
         login,
         password,
