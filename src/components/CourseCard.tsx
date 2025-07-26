@@ -1,7 +1,6 @@
 "use client";
 
 import { Course } from "@/types";
-import Image from "next/image";
 
 interface CourseCardProps {
   course: Course;
@@ -16,7 +15,7 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div className="bg-zinc-900 rounded overflow-hidden shadow hover:shadow-lg transition-shadow">
-      <Image
+      <img
         src={course.img}
         alt={course.titulo}
 

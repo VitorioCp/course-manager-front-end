@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Image from "next/image";
 
 interface Course {
   id: string;
@@ -88,7 +87,7 @@ export default function Home() {
               key={course.id}
               className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10"
             >
-              <Image
+              <img
                 src={course.img}
                 alt={course.titulo}
                 className="w-full h-48 object-cover"
